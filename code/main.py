@@ -43,34 +43,34 @@ def parse_args():
         '--data',
         default='..'+os.sep+'data'+os.sep,
         help='Location where the dataset is stored.')
-    # parser.add_argument(
-    #     '--load-vgg',
-    #     default='vgg16_imagenet.h5',
-        # help='''Path to pre-trained VGG-16 file (only applicable to
-        # task 3).''')
-    # parser.add_argument(
-    #     '--load-checkpoint',
-    #     default=None,
-    #     help='''Path to model checkpoint file (should end with the
-    #     extension .h5). Checkpoints are automatically saved when you
-    #     train your model. If you want to continue training from where
-    #     you left off, this is how you would load your weights.''')
-    # parser.add_argument(
-    #     '--confusion',
-    #     action='store_true',
-    #     help='''Log a confusion matrix at the end of each
-    #     epoch (viewable in Tensorboard). This is turned off
-    #     by default as it takes a little bit of time to complete.''')
-    # parser.add_argument(
-    #     '--evaluate',
-    #     action='store_true',
-    #     help='''Skips training and evaluates on the test set once.
-    #     You can use this to test an already trained model by loading
-    #     its checkpoint.''')
-    # parser.add_argument(
-    #     '--lime-image',
-    #     default='test/Bedroom/image_0003.jpg',
-    #     help='''Name of an image in the dataset to use for LIME evaluation.''')
+    parser.add_argument(
+        '--load-vgg',
+        default='vgg16_imagenet.h5',
+        help='''Path to pre-trained VGG-16 file (only applicable to
+        task 3).''')
+    parser.add_argument(
+        '--load-checkpoint',
+        default=None,
+        help='''Path to model checkpoint file (should end with the
+        extension .h5). Checkpoints are automatically saved when you
+        train your model. If you want to continue training from where
+        you left off, this is how you would load your weights.''')
+    parser.add_argument(
+        '--confusion',
+        action='store_true',
+        help='''Log a confusion matrix at the end of each
+        epoch (viewable in Tensorboard). This is turned off
+        by default as it takes a little bit of time to complete.''')
+    parser.add_argument(
+        '--evaluate',
+        action='store_true',
+        help='''Skips training and evaluates on the test set once.
+        You can use this to test an already trained model by loading
+        its checkpoint.''')
+    parser.add_argument(
+        '--lime-image',
+        default='test/Bedroom/image_0003.jpg',
+        help='''Name of an image in the dataset to use for LIME evaluation.''')
 
     return parser.parse_args()
 
@@ -212,31 +212,19 @@ def main():
     os.chdir(sys.path[0])
 
     datasets = Datasets(ARGS.data, ARGS.task)
+    
+    model = YourModel()
+    model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
+    checkpoint_path = "checkpoints" + os.sep + \
+        "your_model" + os.sep + timestamp + os.sep
+    logs_path = "logs" + os.sep + "your_model" + \
+        os.sep + timestamp + os.sep
 
-    if ARGS.task == '1':
-        model = YourModel()
-        model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
-        checkpoint_path = "checkpoints" + os.sep + \
-            "your_model" + os.sep + timestamp + os.sep
-        logs_path = "logs" + os.sep + "your_model" + \
-            os.sep + timestamp + os.sep
+    # Print summary of model
+    model.summary()
 
-        # Print summary of model
-        model.summary()
-    else:
-        model = VGGModel()
-        checkpoint_path = "checkpoints" + os.sep + \
-            "vgg_model" + os.sep + timestamp + os.sep
-        logs_path = "logs" + os.sep + "vgg_model" + \
-            os.sep + timestamp + os.sep
-        model(tf.keras.Input(shape=(224, 224, 3)))
-
-        # Print summaries for both parts of the model
-        model.vgg16.summary()
-        model.head.summary()
-
-        # Load base of VGG model
-        model.vgg16.load_weights(ARGS.load_vgg, by_name=True)
+    # Load base of VGG model
+    model.vgg16.load_weights(ARGS.load_vgg, by_name=True)
 
     # Load checkpoints
     if ARGS.load_checkpoint is not None:
@@ -267,7 +255,6 @@ def main():
         train(model, datasets, checkpoint_path, logs_path, init_epoch)
 
 
-# Make arguments global
 ARGS = parse_args()
 
 main()
