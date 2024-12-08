@@ -52,65 +52,108 @@ class YourModel(tf.keras.Model):
         #
         #       Note: Flatten is a very useful layer. You shouldn't have to
         #             explicitly reshape any tensors anywhere in your network.
-
-       #prev: (PartialBatchNorm, FullBN)
-              # 1.[conv5-10, mp2, fc-32, do-.4, fc-15], 
-              # 2.[conv5-10, mp2, conv5-10, mp2, fc-128, do-.4, fc-32, do-.4, fc-15] 
-              # 3.[conv7-32, mp2, conv5-32, mp2, 2conv3-64, mp2, fc-256, do-.5, fc-128, do-.5, fc-15] 
-              # 4.(PBN) [2conv7-32, mp2, 2conv5-32, mp2, 2conv3-64, mp2, 2conv3-128, mp2, fc-1024, do-.5, fc-1024, do-.5, fc-15] - train = 62.33, test = 54.44
-              # 5.(FBN)     [2conv3-32, mp2, 2conv3-64, mp2, 2conv3-128, mp2, 2conv3-256, mp2, 2conv3-256, mp2, fc-2048, do-.5, fc-2048, do-.5, fc-15] - train = 71.40, test=66-70
-              # 6.(FBN, PS/V) [2conv3-32, mp3-2, 2conv3-64, mp3-2, 2conv3-128, mp3-2, 3conv3-256, mp3-2, 3conv3-256, mp3-2, fc-2048, do-.5, fc-2048, do-.5, fc-15]  - train = 68, test = 65
-              # 7.(FBN, PS) [2conv5-32, mp3-2, 2conv5-64, mp3-2, 2conv3-128, mp3-2, 3conv3-256, mp3-2, 3conv3-256, mp3-2, fc-1024, do-.5, fc-1024, do-.5, fc-15] - train = 72-75, test = 60-70     (MDA)
-              # 8.(FBN, PS) [2conv3-32, mp3-2, 2conv3-64, mp3-2, 2conv3-128, mp3-2, 3conv3-256, mp3-2, 3conv3-256, mp3-2, fc-1024, do-.6, fc-1024, do-.6, fc-15] - train = 67-70, test = 55-73 (!) (HDA)
-              # 9.(FBN, PS) [2conv3-32, mp3-2, 2conv3-64, mp3-2, 2conv3-128, mp3-2, 3conv3-256, mp3-2, 3conv3-256, mp3-2, fc-1024, do-.5, fc-1024, do-.5, fc-15] - train = , test =                (LDA) [NOT RUN YET]
-        self.architecture = [ 
-             Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             MaxPool2D(pool_size = (3,3), strides=2),
+        # self.architecture = [ 
+        #      Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      MaxPool2D(pool_size = (3,3), strides=2),
              
-             Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             MaxPool2D(pool_size = (3,3), strides=2),
+        #      Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      MaxPool2D(pool_size = (3,3), strides=2),
              
-             Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             MaxPool2D(pool_size = (3,3), strides=2),
+        #      Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      MaxPool2D(pool_size = (3,3), strides=2),
              
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             MaxPool2D(pool_size = (3,3), strides=2),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      MaxPool2D(pool_size = (3,3), strides=2),
         
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-             MaxPool2D(pool_size = (3,3), strides=2),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
+        #      MaxPool2D(pool_size = (3,3), strides=2),
 
-             Flatten(), 
+        #      Flatten(),
+         
 
-             Dense(units = 1024), BatchNormalization(), ReLU(),
-             Dropout(rate = 0.5),
-             Dense(units = 1024), BatchNormalization(), ReLU(),
-             Dropout(rate = 0.5),
-             Dense(units = 15, activation = 'softmax') #(15, 1)
-        ]
+        #      Dense(units = 1024), BatchNormalization(), ReLU(),
+        #      Dropout(rate = 0.5),
+        #      Dense(units = 1024), BatchNormalization(), ReLU(),
+        #      Dropout(rate = 0.5),
+        #      Dense(units = 15, activation = 'softmax') #(15, 1)
+        # ]
+
+
+        self.conv_blocks = [
+           # Block 1
+           Conv2D(64, 3, padding="same", activation=None, name="block1_conv1"),
+           BatchNormalization(name="block1_bn1"),
+           ReLU(name="block1_relu1"),
+           Conv2D(64, 3, padding="same", activation=None, name="block1_conv2"),
+           BatchNormalization(name="block1_bn2"),
+           ReLU(name="block1_relu2"),
+           MaxPool2D(2, name="block1_pool"),
+           Dropout(0.3, name="block1_dropout"),
+          
+           # Block 2
+           Conv2D(128, 3, padding="same", activation=None, name="block2_conv1"),
+           BatchNormalization(name="block2_bn1"),
+           ReLU(name="block2_relu1"),
+           Conv2D(128, 3, padding="same", activation=None, name="block2_conv2"),
+           BatchNormalization(name="block2_bn2"),
+           ReLU(name="block2_relu2"),
+           MaxPool2D(2, name="block2_pool"),
+           Dropout(0.3, name="block2_dropout"),
+          
+           # Block 3
+           Conv2D(256, 3, padding="same", activation=None, name="block3_conv1"),
+           BatchNormalization(name="block3_bn1"),
+           ReLU(name="block3_relu1"),
+           Conv2D(256, 3, padding="same", activation=None, name="block3_conv2"),
+           BatchNormalization(name="block3_bn2"),
+           ReLU(name="block3_relu2"),
+           MaxPool2D(2, name="block3_pool"),
+           Dropout(0.3, name="block3_dropout"),
+          
+           # Block 4
+           Conv2D(512, 3, padding="same", activation=None, name="block4_conv1"),
+           BatchNormalization(name="block4_bn1"),
+           ReLU(name="block4_relu1"),
+           Conv2D(512, 3, padding="same", activation=None, name="block4_conv2"),
+           BatchNormalization(name="block4_bn2"),
+           ReLU(name="block4_relu2"),
+           MaxPool2D(2, name="block4_pool"),
+           Dropout(0.3, name="block4_dropout"),
+       ]
+
+
+       # Fully Connected Layers
+        self.head = [
+           GlobalAveragePooling2D(name="global_avg_pool"),
+           Dense(512, activation="relu", name="fc1"),
+           Dropout(0.3, name="dropout1"),
+           Dense(512, activation="relu", name="fc2"),
+           Dropout(0.3, name="dropout2"),
+           Dense(1, activation="sigmoid", name="output")  # Binary classification
+       ]
+
+
+       # Convert the convolutional blocks and head into sequential models
+        self.conv_blocks = tf.keras.Sequential(self.conv_blocks, name="conv_base")
+        self.head = tf.keras.Sequential(self.head, name="head")
+
 
     def call(self, x):
-        """ Passes input image through the network. """
-
-        for layer in self.architecture:
-            x = layer(x)
-
+        """ Passes the input through the network. """
+        x = self.conv_blocks(x)
+        x = self.head(x)
         return x
 
-    @staticmethod
-    def loss_fn(labels, predictions): #labels & predictions are indices -> labels is (n, 1), predictions (n, 15); n = nb inputs
-        """ Loss function for the model. """
 
-        # TASK 1
-        # TODO: Select a loss function for your network
-        #       (see the documentation for tf.keras.losses)
-        #
-        scce = tf.keras.losses.SparseCategoricalCrossentropy()
-        return scce(labels, predictions)
+    @staticmethod
+    def loss_fn(labels, predictions):
+        """ Loss function for binary classification. """
+        return tf.keras.losses.BinaryCrossentropy()(labels, predictions)
 
