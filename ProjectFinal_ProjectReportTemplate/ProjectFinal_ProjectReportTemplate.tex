@@ -66,12 +66,12 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{CSCI 1430 Final Project Report:\\Your project title}
+\title{CSCI 1430 Final Project Report\\Data Augmented AI Generated Detector}
 
 % Make this document not anonymous
 \author{
-    \emph{Team name}: First member, second member, third member, fourth member.\\
-    \emph{TA name:} HERE PLEASE.
+Everest Yang, Sami Nourji, Sujith Pakala, Tanay Subramanian\\
+    \emph{TA:} Winston Li \\
     Brown University\\
 }
 
@@ -84,31 +84,18 @@ This document is a template for your final project reports, presented in a confe
 This document, along with your code, any supplemental material, and your 2-minute presentation, are qualitatively what determines your grade. 
 \end{abstract}
 
-
-\section{Project Report Advice [Delete This Section]}
-
-\begin{enumerate}
-    \item Overriding principle: show us your effort.
-    \item If you wish us to consider any aspect of your project, it should be presented here. \item Please include a problem statement, related work, your method, your results (figures! tables!), any comparison to existing techniques, and references. 
-    \item If you made something work---great! If you didn't quite make it work---tell us about the problems, why you think it didn't work, and what you would do to fix it.
-    \item Length: Approximately four pages for techical description. For social impact, no more than one page total.
-    \item Please include an appendix to the report which details what each team member contributed to the project. One paragraph max each.
-    \item Any other materials should go in an appendix.
-\end{enumerate}
-
-
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-Introduce the problem that you are trying to solve. Why is it difficult? Briefly what approach will you take? What difference would it make if it were solved?
+Currently, there are issues related to digital misinformation and privacy. As chatbots and generative AI become more sophisticated, they are able to create hyper-realistic fake media. This has significant implications for politics, social trust, and personal security. Deepfakes have already been involved in election interference, celebrity impersonations, and malicious pranks. In the context of media and news, this project becomes relevant for the authenticity of digital content in an era where images and videos can be fabricated easily.
+The difficulty lies in the fact that AI-generated content can replicate  details like lighting, shadows, and facial expressions with astonishing precision, making traditional detection methods less effective. Manual verification is not feasible at scale which is why automated tools capable of detecting fakes are necessary.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In this paper, we propose a Data Augmented AI Generator capable of determining real images vs AI-generated. We want to test the hypothesis that AI-generated images have particular features that allow humans to differentiate them from real ones. For example, the smooth texture that seems to appear in AI-generated images. By leveraging computer vision and deep learning techniques, including neural networks trained on diverse datasets of real and synthetic media, this project aims to identify these distinguishing features. The use of data augmentation will ensure the model's robustness across various scenarios, enabling it to detect AI-generated content with greater accuracy.
 
 \section{Related Work}
 
 Cite and discuss work that you used in your project, including any software used. Citations are written into a .bib file in BibTeX format, and can be called like this: Alpher et al.~\cite{Alpher04}. Here's a brief intro: \href{http://www.andy-roberts.net/writing/latex/bibliographies}{webpage}. \emph{Hint:} \$$>$ pdflatex \%docu, bibtex \%docu, pdflatex \%docu, pdflatex \%docu
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Watch for hanging orphans; they make a document look ugly.
 
 \section{Method}
 
