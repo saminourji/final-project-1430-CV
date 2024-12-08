@@ -187,9 +187,10 @@ def test(model, test_data):
 def main():
     """ Main function. """
 
-    kaggle_path = kagglehub.dataset_download("birdy654/cifake-real-and-ai-generated-synthetic-images")
+    # path = kagglehub.dataset_download("birdy654/cifake-real-and-ai-generated-synthetic-images")
+    path = "../data"
 
-    print("Kaggle path: ", kaggle_path)
+    print("Kaggle path: ", path)
     time_now = datetime.now()
     timestamp = time_now.strftime("%m%d%y-%H%M%S")
     init_epoch = 0
@@ -215,7 +216,7 @@ def main():
     # Run script from location of main.py
     os.chdir(sys.path[0])
 
-    datasets = Datasets(kaggle_path, "1")
+    datasets = Datasets(path, "1")
     
     model = YourModel()
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
