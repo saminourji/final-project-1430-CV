@@ -239,8 +239,8 @@ def main():
     #         model.head.load_weights(ARGS.load_checkpoint, by_name=False)
 
     # Make checkpoint directory if needed
-    # if not ARGS.evaluate and not os.path.exists(checkpoint_path):
-    #     os.makedirs(checkpoint_path)
+    if not os.path.exists(checkpoint_path):
+        os.makedirs(checkpoint_path)
 
     # Compile model graph
     model.compile(
