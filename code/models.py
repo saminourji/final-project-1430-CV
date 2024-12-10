@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, BatchNormalization, ReLU, MaxPool2D, Dropout, Flatten, Dense, GlobalAveragePooling2D
+from tensorflow.keras.layers import Conv2D, BatchNormalization, ReLU, MaxPool2D, Dropout, Flatten, Dense, GlobalAveragePooling2D, Concatenate
 import tensorflow.signal as tf_signal
 
 class YourModel(tf.keras.Model):
@@ -49,12 +49,8 @@ class YourModel(tf.keras.Model):
             Dropout(0.3, name="block4_dropout"),
         ]
 
-        # Fourier Transform Layer
-        self.fourier_transform_layer = tf.keras.layers.Lambda(self.apply_fourier_transform, name="fourier_transform")
-
         # Fully Connected Layers
         self.head = [
-            GlobalAveragePooling2D(name="global_avg_pool"),
             Dense(512, activation="relu", name="fc1"),
             Dropout(0.3, name="dropout1"),
             Dense(512, activation="relu", name="fc2"),
@@ -67,15 +63,29 @@ class YourModel(tf.keras.Model):
 
     def apply_fourier_transform(self, x):
         """ Applies Fourier Transform to the input tensor. """
-        x = tf_signal.rfft2d(x)
+        x = tf.cast(x, tf.float32)  # Ensure input is float32
+        x = tf_signal.rfft2d(x)  # Apply RFFT
         x = tf.abs(x)  # Take magnitude of Fourier coefficients
+        x = tf.reduce_mean(x, axis=-1, keepdims=True)  # Reduce along frequency dimensions
         return x
 
     def call(self, x):
         """ Passes the input through the network. """
-        x = self.conv_blocks(x)
-        x = self.fourier_transform_layer(x)
-        x = self.head(x)
+        # Compute Fourier Transform of the input
+        fourier_transform = self.apply_fourier_transform(x)
+
+        # Pass the original input through convolutional blocks
+        conv_output = self.conv_blocks(x)
+
+        # Flatten the outputs for concatenation
+        conv_output_flattened = tf.keras.layers.Flatten()(conv_output)
+        fourier_transform_flattened = tf.keras.layers.Flatten()(fourier_transform)
+
+        # Concatenate the Fourier Transform with the convolutional block output
+        combined_features = tf.keras.layers.Concatenate()([conv_output_flattened, fourier_transform_flattened])
+
+        # Pass the combined features through the head layers
+        x = self.head(combined_features)
         return x
 
     @staticmethod
