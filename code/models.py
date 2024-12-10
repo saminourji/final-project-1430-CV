@@ -92,3 +92,4 @@ class YourModel(tf.keras.Model):
     def loss_fn(labels, predictions):
         """ Loss function for binary classification. """
         return tf.keras.losses.BinaryCrossentropy()(labels, predictions)
+    
