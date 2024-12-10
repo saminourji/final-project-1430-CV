@@ -190,7 +190,7 @@ class Datasets():
             An iterable image-batch generator
         """
 
-        if augment:
+        # if augment:
             # TODO: Use the arguments of ImageDataGenerator()
             #       to augment the data. Leave the
             #       preprocessing_function argument as is unless
@@ -230,24 +230,24 @@ class Datasets():
             # )
 
             #HIGH
-            data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
-                preprocessing_function=self.preprocess_fn,
-                horizontal_flip = True,
-                rotation_range = 6,             # prev: 15, 5, 2, 1
-                shear_range = 4,                # prev: 15, 5, 2, 1
-                zoom_range = 0.15,              # prev: 0.2, 0.1, 0.05
-                width_shift_range=0.15,         # prev: 0.2, 0.1, 0.05, 0
-                height_shift_range=0.15,        # prev: 0.2, 0.1, 0.05, 0
-                brightness_range = [0.85,1.15], # prev: [0.85,1.15], [0.9,1.1], [0.95,1.05]
-                channel_shift_range = 0.05,     # prev: 0.05, 0
-                fill_mode='reflect'
-            )
+            # data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
+            #     preprocessing_function=self.preprocess_fn,
+            #     horizontal_flip = True,
+            #     rotation_range = 6,             # prev: 15, 5, 2, 1
+            #     shear_range = 4,                # prev: 15, 5, 2, 1
+            #     zoom_range = 0.15,              # prev: 0.2, 0.1, 0.05
+            #     width_shift_range=0.15,         # prev: 0.2, 0.1, 0.05, 0
+            #     height_shift_range=0.15,        # prev: 0.2, 0.1, 0.05, 0
+            #     brightness_range = [0.85,1.15], # prev: [0.85,1.15], [0.9,1.1], [0.95,1.05]
+            #     channel_shift_range = 0.05,     # prev: 0.05, 0
+            #     fill_mode='reflect'
+            # )
 
             # ============================================================
-        else:
+        # else:
             # Don't modify this
-            data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
-                preprocessing_function=self.preprocess_fn)
+        data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
+            preprocessing_function=self.preprocess_fn)
 
 
         img_size = hp.img_size
