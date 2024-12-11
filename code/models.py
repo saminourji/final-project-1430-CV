@@ -64,25 +64,26 @@ class YourModel(tf.keras.Model):
     def apply_fourier_transform(self, x):
         """ Applies Fourier Transform to the input tensor. """
         x = tf.cast(x, tf.float32)  # Ensure input is float32
-        x = tf_signal.rfft2d(x)  # Apply RFFT
-        x = tf.abs(x)  # Take magnitude of Fourier coefficients
-        x = tf.reduce_mean(x, axis=-1, keepdims=True)  # Reduce along frequency dimensions
-        return x
+        x = tf_signal.rfft2d(x)  # Apply real FFT
+        x_mag = tf.abs(x)  # Compute magnitude
+        x_phase = tf.math.angle(x)  # Compute phase
+        return x_mag, x_phase
 
     def call(self, x):
         """ Passes the input through the network. """
         # Compute Fourier Transform of the input
-        fourier_transform = self.apply_fourier_transform(x)
+        x_mag, x_phase  = self.apply_fourier_transform(x)
 
         # Pass the original input through convolutional blocks
         conv_output = self.conv_blocks(x)
 
         # Flatten the outputs for concatenation
         conv_output_flattened = tf.keras.layers.Flatten()(conv_output)
-        fourier_transform_flattened = tf.keras.layers.Flatten()(fourier_transform)
+        x_mag_flattened = tf.keras.layers.Flatten()(x_mag)  # Flatten magnitude
+        x_phase_flattened = tf.keras.layers.Flatten()(x_phase)  # Flatten phase
 
         # Concatenate the Fourier Transform with the convolutional block output
-        combined_features = tf.keras.layers.Concatenate()([conv_output_flattened, fourier_transform_flattened])
+        combined_features = tf.keras.layers.Concatenate()([conv_output_flattened, x_mag_flattened, x_phase_flattened])
 
         # Pass the combined features through the head layers
         x = self.head(combined_features)
