@@ -190,7 +190,7 @@ def main():
     # path = kagglehub.dataset_download("birdy654/cifake-real-and-ai-generated-synthetic-images")
     path = "../data"
 
-    print("Kaggle path: ", path)
+    print("Path: ", path)
     time_now = datetime.now()
     timestamp = time_now.strftime("%m%d%y-%H%M%S")
     init_epoch = 0
