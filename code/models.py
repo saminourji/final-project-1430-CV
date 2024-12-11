@@ -64,9 +64,11 @@ class YourModel(tf.keras.Model):
     def apply_fourier_transform(self, x):
         """ Applies Fourier Transform to the input tensor. """
         x = tf.cast(x, tf.float32)  # Ensure input is float32
-        x = tf_signal.rfft2d(x)  # Apply real FFT
+        x = tf_signal.rfft2d(x)  # Apply real FFTi
         x_mag = tf.abs(x)  # Compute magnitude
         x_phase = tf.math.angle(x)  # Compute phase
+        print(x_mag.shape)
+        print(x_phase.shape)
         return x_mag, x_phase
 
     def call(self, x):
