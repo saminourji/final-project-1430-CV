@@ -3,7 +3,6 @@ Borrowed from Homework 5 - CNNs
 CS1430 - Computer Vision
 Brown University
 """
-
 import os
 import sys
 import argparse
@@ -25,15 +24,23 @@ from skimage.segmentation import mark_boundaries
 from matplotlib import pyplot as plt
 import numpy as np
 
+import warnings
+warnings.filterwarnings('ignore')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-# def parse_args():
-#     """ Perform command-line argument parsing. """
+def parse_args():
+    """ Perform command-line argument parsing. """
 
-    # parser = argparse.ArgumentParser(
-    #     description="Let's train some neural nets!",
-    #     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="Let's train some neural nets!",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    
+    parser.add_argument(
+        '--fourier',
+        action='store_true',
+        default=False,
+        help='Enable Fourier Transform processing. Default is disabled.')
     # parser.add_argument(
     #     '--task',
     #     required=True,
@@ -73,7 +80,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     #     default='test/Bedroom/image_0003.jpg',
     #     help='''Name of an image in the dataset to use for LIME evaluation.''')
 
-    # return parser.parse_args()
+    return parser.parse_args()
 
 
 def LIME_explainer(model, path, preprocess_fn, timestamp):
@@ -218,7 +225,7 @@ def main():
 
     datasets = Datasets(path, "1")
     
-    model = YourModel()
+    model = YourModel(ARGS.fourier)
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
     checkpoint_path = "checkpoints" + os.sep + \
         "your_model" + os.sep + timestamp + os.sep
@@ -260,6 +267,6 @@ def main():
     train(model, datasets, checkpoint_path, logs_path, init_epoch)
 
 
-# ARGS = parse_args()
+ARGS = parse_args()
 
 main()
