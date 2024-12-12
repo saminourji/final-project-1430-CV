@@ -5,6 +5,7 @@ Brown University
 """
 
 import tensorflow as tf
+import tensorflow.signal as tf_signal
 from keras.layers import \
     Conv2D, MaxPool2D, Dropout, Flatten, Dense, BatchNormalization, ReLU, GlobalAveragePooling2D
 
@@ -98,11 +99,7 @@ class YourModel(tf.keras.Model):
 
 
        # Fully Connected Layers
-        if self.fourier:
-            self.head = [] #flattenning done inside of the code
-        else: 
-            self.head = [GlobalAveragePooling2D(name="global_avg_pool")]
-        self.head += [
+        self.head = [
            Dense(512, activation="relu", name="fc1"),
            Dropout(0.3, name="dropout1"),
            Dense(512, activation="relu", name="fc2"),
@@ -121,8 +118,6 @@ class YourModel(tf.keras.Model):
         x = tf_signal.rfft2d(x)  # Apply real FFTi
         x_mag = tf.abs(x)  # Compute magnitude
         x_phase = tf.math.angle(x)  # Compute phase
-        print(x_mag.shape)
-        print(x_phase.shape)
         return x_mag, x_phase
 
     fourier = True
@@ -133,20 +128,22 @@ class YourModel(tf.keras.Model):
 
             # Pass the original input through convolutional blocks
             conv_output = self.conv_blocks(x)
+            # Apply Global Average Pooling to the convolutional output
+            conv_output_gapped = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(conv_output)
 
-            # Flatten the outputs for concatenation
-            conv_output_flattened = tf.keras.layers.Flatten()(conv_output)
+            # Flatten the Fourier magnitude and phase outputs
             x_mag_flattened = tf.keras.layers.Flatten()(x_mag)  # Flatten magnitude
             x_phase_flattened = tf.keras.layers.Flatten()(x_phase)  # Flatten phase
 
             # Concatenate the Fourier Transform with the convolutional block output
-            combined_features = tf.keras.layers.Concatenate()([conv_output_flattened, x_mag_flattened, x_phase_flattened])
-
+            combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
+            
             # Pass the combined features through the head layers
             x = self.head(combined_features)
 
         else:
             x = self.conv_blocks(x)
+            x = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(x)
             x = self.head(x)
         return x
 

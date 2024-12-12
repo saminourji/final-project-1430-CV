@@ -41,6 +41,12 @@ def parse_args():
         action='store_true',
         default=False,
         help='Enable Fourier Transform processing. Default is disabled.')
+    
+    # parser.add_argument(
+    #     '--augment',
+    #     action='store_true',
+    #     default=False,
+    #     help='Enable data augmentation. Default is disabled.')
     # parser.add_argument(
     #     '--task',
     #     required=True,
@@ -270,3 +276,6 @@ def main():
 ARGS = parse_args()
 
 main()
+#interact -q gpu -g 1 -f ampere -m 96g -n 8 -t 24:00:00
+#apptainer shell --nv /oscar/runtime/software/external/ngc-containers/tensorflow.d/x86_64.d/tensorflow-24.03-tf2-py3.simg
+#python code/main.py --fourier
