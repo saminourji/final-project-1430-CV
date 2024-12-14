@@ -212,10 +212,12 @@ class YourModel(tf.keras.Model):
 
             combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
             x_fourier = self.fourier_head(combined_features)
+            print(x_fourier.shape)
 
-            x_conv = self.conv_blocks(x)
-            x_conv = conv_output_func(name="gap_conv_output")(x_conv)
-            x_cnn = self.head(x_conv)
+            conv_output = self.conv_blocks(x)
+            conv_output_gapped = conv_output_func(conv_output)
+            x_cnn = self.head(conv_output_gapped)
+            print(x_cnn.shape)
 
             combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
             x = self.combined_head(combined_arch)
@@ -223,7 +225,7 @@ class YourModel(tf.keras.Model):
         # Normal: image through CNN
         else: 
             x = self.conv_blocks(x)
-            x = conv_output_func(name="gap_conv_output")(x)
+            x = conv_output_func(x)
             x = self.head(x)
 
         return x
