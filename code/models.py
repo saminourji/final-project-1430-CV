@@ -6,6 +6,7 @@ Brown University
 
 import tensorflow as tf
 import tensorflow.signal as tf_signal
+import numpy as np
 from keras.layers import \
     Conv2D, MaxPool2D, Dropout, Flatten, Dense, BatchNormalization, ReLU, GlobalAveragePooling2D
 
@@ -15,11 +16,17 @@ import hyperparameters as hp
 class YourModel(tf.keras.Model):
     """ Your own neural network model. """
 
-    def __init__(self, fourier, fourier_only):
+    def __init__(self, fourier, fourier_only, random_fourier, combined):
         super(YourModel, self).__init__()
-        print("Fourier:", self.fourier)
         self.fourier = fourier
-        self.fourier_only = fourier_only  # Default: Run convolutional and Fourier combined mode
+        self.random_fourier = random_fourier
+        self.fourier_only = fourier_only
+        self.combined = combined
+
+        print("Fourier:", self.fourier)
+        print("Random fourier:", self.random_fourier)
+        print("Fourier only:", self.fourier_only)
+        print("Combined:", self.combined)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = hp.learning_rate)
         
         # self.architecture = [ 
@@ -55,7 +62,13 @@ class YourModel(tf.keras.Model):
         #      Dense(units = 15, activation = 'softmax') #(15, 1)
         # ]
 
-        if not self.fourier_only:
+
+        #fourier: conv_blocks, head
+        #random-fourier: conv_blocks, head
+        #fourier-only: fourier_head
+        #combined: fourier_head, conv_blocks, head, combined
+
+        if not fourier_only:
             self.conv_blocks = [
                 # Block 1
                 Conv2D(64, 3, padding="same", activation=None, name="block1_conv1"),
@@ -97,11 +110,26 @@ class YourModel(tf.keras.Model):
                 MaxPool2D(2, name="block4_pool"),
                 Dropout(0.3, name="block4_dropout"),
             ]
-            
             self.conv_blocks = tf.keras.Sequential(self.conv_blocks, name="conv_base")
 
-
-            # Fully Connected Layers for standard and fourier+conv
+        
+        
+        #if fourier-only or combined:
+        if fourier_only:
+            self.fourier_head = [
+                Dense(1024, activation="relu", name="fc1"),  # Increased size
+                Dropout(0.3, name="dropout1"),
+                Dense(512, activation="relu", name="fc2"),
+                Dropout(0.3, name="dropout2"),
+                Dense(256, activation="relu", name="fc3"),  # New layer
+                Dropout(0.3, name="dropout3"),
+                Dense(128, activation="relu", name="fc4"),  # New layer
+                Dropout(0.3, name="dropout4"),
+                Dense(1, activation="sigmoid", name="output"),  # Output layer
+            ]
+            self.fourier_head = tf.keras.Sequential(self.fourier_head, name="fourier_head")
+        
+        elif fourier or random_fourier:
             self.head = [
                 Dense(512, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
@@ -109,22 +137,30 @@ class YourModel(tf.keras.Model):
                 Dropout(0.3, name="dropout2"),
                 Dense(1, activation="sigmoid", name="output")  # Binary classification
             ]
+            self.head = tf.keras.Sequential(self.head, name="head")
         
-        #if fourier-only
-        self.head = [
-            Dense(1024, activation="relu", name="fc1"),  # Increased size
-            Dropout(0.3, name="dropout1"),
-            Dense(512, activation="relu", name="fc2"),
-            Dropout(0.3, name="dropout2"),
-            Dense(256, activation="relu", name="fc3"),  # New layer
-            Dropout(0.3, name="dropout3"),
-            Dense(128, activation="relu", name="fc4"),  # New layer
-            Dropout(0.3, name="dropout4"),
-            Dense(1, activation="sigmoid", name="output"),  # Output layer
-        ]
+        else: # combined
+            self.head = [
+                Dense(512, activation="relu", name="fc1"),
+                Dropout(0.3, name="dropout1"),
+                Dense(512, activation="relu", name="fc3"),  
+            ]
+            self.fourier_head = [
+                Dense(1024, activation="relu", name="fc1"),  # Increased size
+                Dropout(0.3, name="dropout1"),
+                Dense(512, activation="relu", name="fc2"),
+                Dropout(0.3, name="dropout2"),
+                Dense(256, activation="relu", name="fc3"),  
+            ]
+            self.combined_head = [
+                Dense(256, activation="relu", name="fc1"),
+                Dropout(0.3, name="dropout1"),
+                Dense(1, activation="sigmoid", name="output")  # Binary classification
+            ]
+            self.head = tf.keras.Sequential(self.head, name="head")
+            self.fourier_head = tf.keras.Sequential(self.fourier_head, name="fourier_head")
+            self.combined_head = tf.keras.Sequential(self.combined_head, name="combined_head")
 
-       # Convert the convolutional blocks and head into sequential models
-        self.head = tf.keras.Sequential(self.head, name="head")
 
     def apply_fourier_transform(self, x):
         """ Applies Fourier Transform to the input tensor. """
@@ -132,41 +168,56 @@ class YourModel(tf.keras.Model):
         x = tf_signal.rfft2d(x)  # Apply real FFTi
         x_mag = tf.abs(x)  # Compute magnitude
         x_phase = tf.math.angle(x)  # Compute phase
-        return x_mag, x_phase
+        x_mag_flattened = tf.keras.layers.Flatten()(x_mag)
+        x_phase_flattened = tf.keras.layers.Flatten()(x_phase)
+        return x_mag_flattened, x_phase_flattened
 
-    fourier = True
     def call(self, x):
         if self.fourier:
-            """ Passes the input through the network. """
-            x_mag, x_phase  = self.apply_fourier_transform(x)
+            x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(x)
 
-            # Pass the original input through convolutional blocks
             conv_output = self.conv_blocks(x)
-            # Apply Global Average Pooling to the convolutional output
             conv_output_gapped = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(conv_output)
 
-            # Flatten the Fourier magnitude and phase outputs
-            x_mag_flattened = tf.keras.layers.Flatten()(x_mag)  # Flatten magnitude
-            x_phase_flattened = tf.keras.layers.Flatten()(x_phase)  # Flatten phase
-
-            # Concatenate the Fourier Transform with the convolutional block output
             combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
-            
-            # Pass the combined features through the head layers
             x = self.head(combined_features)
+
+        elif self.random_fourier:
+            uniform_noise = tf.random.uniform(shape=(hp.img_size, hp.img_size, 3), minval=0, maxval=1, dtype=tf.float32)
+            x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(uniform_noise)
+
+            conv_output = self.conv_blocks(x)
+            conv_output_gapped = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(conv_output)
+
+            combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
+            x = self.head(combined_features)
+
 
         elif self.fourier_only: 
-            
-            x_mag, x_phase = self.apply_fourier_transform(x)
-            x_mag_flattened = tf.keras.layers.Flatten()(x_mag)
-            x_phase_flattened = tf.keras.layers.Flatten()(x_phase)
-            combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
-            x = self.head(combined_features)
+            x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
 
-        else:
+            combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
+            x = self.fourier_head(combined_features)
+
+        elif self.combined:
+            x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
+
+            combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
+            x_fourier = self.fourier_head(combined_features)
+
+            x_conv = self.conv_blocks(x)
+            x_conv = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(x_conv)
+            x_cnn = self.head(x_conv)
+
+            combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
+            x = self.combined_head(combined_arch)
+            
+
+        else: # normal
             x = self.conv_blocks(x)
             x = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")(x)
             x = self.head(x)
+
         return x
 
 
