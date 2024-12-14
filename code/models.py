@@ -177,6 +177,7 @@ class YourModel(tf.keras.Model):
         # conv_output_func = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")
         conv_output_func = tf.keras.layers.Flatten()
 
+        # Concatenated Fourier
         if self.fourier:
             x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(x)
 
@@ -186,6 +187,7 @@ class YourModel(tf.keras.Model):
             combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
             x = self.head(combined_features)
 
+        # Concatenated random (instead of Fourier)
         elif self.random_fourier:
             uniform_noise = tf.random.uniform(shape=tf.shape(x), minval=0, maxval=255, dtype=tf.float32)
 
@@ -197,12 +199,14 @@ class YourModel(tf.keras.Model):
             combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
             x = self.head(combined_features)
 
+        # Fourier through dense layer
         elif self.fourier_only: 
             x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
 
             combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
             x = self.fourier_head(combined_features)
 
+        # Fourier through dense layer, Normal image, then concatednated and pass through one dense
         elif self.combined:
             x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
 
@@ -216,8 +220,8 @@ class YourModel(tf.keras.Model):
             combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
             x = self.combined_head(combined_arch)
             
-
-        else: # normal
+        # Normal: image through CNN
+        else: 
             x = self.conv_blocks(x)
             x = conv_output_func(name="gap_conv_output")(x)
             x = self.head(x)
