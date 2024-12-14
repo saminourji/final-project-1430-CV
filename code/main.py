@@ -43,10 +43,22 @@ def parse_args():
         help='Enable Fourier Transform processing. Default is disabled.')
     
     parser.add_argument(
+        '--random-fourier',
+        action='store_true',
+        default=False,
+        help='Enable Concatenated Noise of same shape as fourier transform. Default is disabled.')
+    
+    parser.add_argument(
         '--fourier-only',
         action='store_true',
         default=False,
         help='Enable Fourier Transform processing with fully connected layers only. Default is disabled.')
+    
+    parser.add_argument(
+        '--combined',
+        action='store_true',
+        default=False,
+        help='Fourier Transform processing and CNN seperate, then combined into a final layer. Default is disabled.')
 
     
     # parser.add_argument(
@@ -238,7 +250,7 @@ def main():
 
     datasets = Datasets(path, "1")
     
-    model = YourModel(fourier=ARGS.fourier, fourier_only=ARGS.fourier_only)
+    model = YourModel(fourier=ARGS.fourier, fourier_only=ARGS.fourier_only, random_fourier=ARGS.random_fourier, combined=ARGS.combined)
 
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
     checkpoint_path = "checkpoints" + os.sep + \
