@@ -59,6 +59,12 @@ def parse_args():
         action='store_true',
         default=False,
         help='Fourier Transform processing and CNN seperate, then combined into a final layer. Default is disabled.')
+    
+    parser.add_argument(
+        '--combined-random',
+        action='store_true',
+        default=False,
+        help='Random Fourier Transform processing and CNN seperate, then combined into a final layer. Default is disabled.')
 
     
     # parser.add_argument(
@@ -250,7 +256,11 @@ def main():
 
     datasets = Datasets(path, "1")
     
-    model = YourModel(fourier=ARGS.fourier, fourier_only=ARGS.fourier_only, random_fourier=ARGS.random_fourier, combined=ARGS.combined)
+    model = YourModel(fourier=ARGS.fourier, 
+                      fourier_only=ARGS.fourier_only, 
+                      random_fourier=ARGS.random_fourier, 
+                      combined=ARGS.combined,
+                      combined_random=ARGS.combined_random)
 
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
     checkpoint_path = "checkpoints" + os.sep + \

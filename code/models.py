@@ -16,17 +16,19 @@ import hyperparameters as hp
 class YourModel(tf.keras.Model):
     """ Your own neural network model. """
 
-    def __init__(self, fourier, fourier_only, random_fourier, combined):
+    def __init__(self, fourier, fourier_only, random_fourier, combined, combined_random):
         super(YourModel, self).__init__()
         self.fourier = fourier
         self.random_fourier = random_fourier
         self.fourier_only = fourier_only
         self.combined = combined
+        self.combined_random = combined_random
 
         print("Fourier:", self.fourier)
         print("Random fourier:", self.random_fourier)
         print("Fourier only:", self.fourier_only)
         print("Combined:", self.combined)
+        print("Combined Random:", self.combined_random)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = hp.learning_rate)
         
         # self.architecture = [ 
@@ -129,7 +131,7 @@ class YourModel(tf.keras.Model):
             ]
             self.fourier_head = tf.keras.Sequential(self.fourier_head, name="fourier_head")
         
-        elif combined: # combined
+        elif combined or combined_random: # combined
             self.head = [
                 Dense(512, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
@@ -174,8 +176,8 @@ class YourModel(tf.keras.Model):
         return x_mag_flattened, x_phase_flattened #(None, 1024) each
 
     def call(self, x):
-        # conv_output_func = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")
-        conv_output_func = tf.keras.layers.Flatten()
+        conv_output_func = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")
+        # conv_output_func = tf.keras.layers.Flatten()
 
         # Concatenated Fourier
         if self.fourier:
@@ -190,7 +192,6 @@ class YourModel(tf.keras.Model):
         # Concatenated random (instead of Fourier)
         elif self.random_fourier:
             uniform_noise = tf.random.uniform(shape=tf.shape(x), minval=0, maxval=255, dtype=tf.float32)
-
             x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(uniform_noise)
 
             conv_output = self.conv_blocks(x)
@@ -212,12 +213,25 @@ class YourModel(tf.keras.Model):
 
             combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
             x_fourier = self.fourier_head(combined_features)
-            print(x_fourier.shape)
 
             conv_output = self.conv_blocks(x)
             conv_output_gapped = conv_output_func(conv_output)
             x_cnn = self.head(conv_output_gapped)
-            print(x_cnn.shape)
+
+            combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
+            x = self.combined_head(combined_arch)
+
+        # Random Fourier through dense layer, Normal image, then concatednated and pass through one dense
+        elif self.combined_random:
+            uniform_noise = tf.random.uniform(shape=tf.shape(x), minval=0, maxval=255, dtype=tf.float32)
+            x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(uniform_noise)
+
+            combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
+            x_fourier = self.fourier_head(combined_features)
+
+            conv_output = self.conv_blocks(x)
+            conv_output_gapped = conv_output_func(conv_output)
+            x_cnn = self.head(conv_output_gapped)
 
             combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
             x = self.combined_head(combined_arch)
