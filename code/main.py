@@ -42,6 +42,13 @@ def parse_args():
         default=False,
         help='Enable Fourier Transform processing. Default is disabled.')
     
+    parser.add_argument(
+        '--fourier-only',
+        action='store_true',
+        default=False,
+        help='Enable Fourier Transform processing with fully connected layers only. Default is disabled.')
+
+    
     # parser.add_argument(
     #     '--augment',
     #     action='store_true',
@@ -231,7 +238,8 @@ def main():
 
     datasets = Datasets(path, "1")
     
-    model = YourModel(ARGS.fourier)
+    model = YourModel(fourier=ARGS.fourier, fourier_only=ARGS.fourier_only)
+
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
     checkpoint_path = "checkpoints" + os.sep + \
         "your_model" + os.sep + timestamp + os.sep
