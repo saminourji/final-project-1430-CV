@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex ProjectFinal_ProjectReportTemplate"] 1733622869.65433 "ProjectFinal_ProjectReportTemplate.aux" "ProjectFinal_ProjectReportTemplate.bbl" "ProjectFinal_ProjectReportTemplate" 1733622871.40402 0
-  "./ProjectFinal_ProjectReportTemplate.bib" 1726018122 907 1d8a715c06a031388df50ca64d08e3a9 ""
+["bibtex ProjectFinal_ProjectReportTemplate"] 1734225203.15557 "ProjectFinal_ProjectReportTemplate.aux" "ProjectFinal_ProjectReportTemplate.bbl" "ProjectFinal_ProjectReportTemplate" 1734225204.74309 0
+  "./ProjectFinal_ProjectReportTemplate.bib" 1734225182.29585 909 3d0527a425a18211d19e7f1e23b10a7b ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "ProjectFinal_ProjectReportTemplate.aux" 1733622870.83737 1973 a1a3ea659acdd05b5241de17314906cc "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.aux" 1734225204.5433 1973 a1a3ea659acdd05b5241de17314906cc "pdflatex"
   (generated)
   "ProjectFinal_ProjectReportTemplate.bbl"
   "ProjectFinal_ProjectReportTemplate.blg"
   (rewritten before read)
-["pdflatex"] 1733622869.85547 "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" "ProjectFinal_ProjectReportTemplate.pdf" "ProjectFinal_ProjectReportTemplate" 1733622871.40421 0
-  "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" 1733622867.65581 12028 36549c785c8e613257c77316fa7ca794 ""
+["pdflatex"] 1734225203.26207 "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" "ProjectFinal_ProjectReportTemplate.pdf" "ProjectFinal_ProjectReportTemplate" 1734225204.74326 0
+  "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" 1734225182.29664 12029 5ff5bcaa66fc182cec7c74cbe530b008 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -134,10 +134,10 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1718996592.35863 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1718996354 8221429 b5e13359c2e04a7d8d668b8ca05f7299 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "ProjectFinal_ProjectReportTemplate.aux" 1733622870.83737 1973 a1a3ea659acdd05b5241de17314906cc "pdflatex"
-  "ProjectFinal_ProjectReportTemplate.bbl" 1733622869.85253 215 b9a0297198d8190a3e629ce5f57e75ad "bibtex ProjectFinal_ProjectReportTemplate"
-  "ProjectFinal_ProjectReportTemplate.brf" 1733622870.8383 40 9dc35055e2eac5ec5e1738b9dd20803e "pdflatex"
-  "ProjectFinal_ProjectReportTemplate.tex" 1733622867.65581 12028 36549c785c8e613257c77316fa7ca794 ""
+  "ProjectFinal_ProjectReportTemplate.aux" 1734225204.5433 1973 a1a3ea659acdd05b5241de17314906cc "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.bbl" 1734225203.25065 215 b9a0297198d8190a3e629ce5f57e75ad "bibtex ProjectFinal_ProjectReportTemplate"
+  "ProjectFinal_ProjectReportTemplate.brf" 1734225204.54366 40 9dc35055e2eac5ec5e1738b9dd20803e "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.tex" 1734225182.29664 12029 5ff5bcaa66fc182cec7c74cbe530b008 ""
   "cvpr.sty" 1726018122 8185 1f09b4535924bf997f66357aa9ee3654 ""
   "cvpr_eso.sty" 1726018122 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1726018122 9460 d2935ae95b5cd343fcf5887ff530288d ""

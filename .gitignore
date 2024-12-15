@@ -19,3 +19,6 @@
 /code/misclassified
 */__pycache__
 results.txt
+
+*/Images/*.zip
+*/Images/*.pdf
