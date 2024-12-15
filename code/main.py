@@ -3,7 +3,6 @@ Borrowed from Homework 5 - CNNs
 CS1430 - Computer Vision
 Brown University
 """
-
 import os
 import sys
 import argparse
@@ -25,15 +24,54 @@ from skimage.segmentation import mark_boundaries
 from matplotlib import pyplot as plt
 import numpy as np
 
+import warnings
+warnings.filterwarnings('ignore')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-# def parse_args():
-#     """ Perform command-line argument parsing. """
+def parse_args():
+    """ Perform command-line argument parsing. """
 
-    # parser = argparse.ArgumentParser(
-    #     description="Let's train some neural nets!",
-    #     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="Let's train some neural nets!",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    
+    parser.add_argument(
+        '--fourier',
+        action='store_true',
+        default=False,
+        help='Enable Fourier Transform processing. Default is disabled.')
+    
+    parser.add_argument(
+        '--random-fourier',
+        action='store_true',
+        default=False,
+        help='Enable Concatenated Noise of same shape as fourier transform. Default is disabled.')
+    
+    parser.add_argument(
+        '--fourier-only',
+        action='store_true',
+        default=False,
+        help='Enable Fourier Transform processing with fully connected layers only. Default is disabled.')
+    
+    parser.add_argument(
+        '--combined',
+        action='store_true',
+        default=False,
+        help='Fourier Transform processing and CNN seperate, then combined into a final layer. Default is disabled.')
+    
+    parser.add_argument(
+        '--combined-random',
+        action='store_true',
+        default=False,
+        help='Random Fourier Transform processing and CNN seperate, then combined into a final layer. Default is disabled.')
+
+    
+    # parser.add_argument(
+    #     '--augment',
+    #     action='store_true',
+    #     default=False,
+    #     help='Enable data augmentation. Default is disabled.')
     # parser.add_argument(
     #     '--task',
     #     required=True,
@@ -73,7 +111,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     #     default='test/Bedroom/image_0003.jpg',
     #     help='''Name of an image in the dataset to use for LIME evaluation.''')
 
-    # return parser.parse_args()
+    return parser.parse_args()
 
 
 def LIME_explainer(model, path, preprocess_fn, timestamp):
@@ -190,7 +228,7 @@ def main():
     # path = kagglehub.dataset_download("birdy654/cifake-real-and-ai-generated-synthetic-images")
     path = "../data"
 
-    print("Kaggle path: ", path)
+    print("Path: ", path)
     time_now = datetime.now()
     timestamp = time_now.strftime("%m%d%y-%H%M%S")
     init_epoch = 0
@@ -218,7 +256,12 @@ def main():
 
     datasets = Datasets(path, "1")
     
-    model = YourModel()
+    model = YourModel(fourier=ARGS.fourier, 
+                      fourier_only=ARGS.fourier_only, 
+                      random_fourier=ARGS.random_fourier, 
+                      combined=ARGS.combined,
+                      combined_random=ARGS.combined_random)
+
     model(tf.keras.Input(shape=(hp.img_size, hp.img_size, 3)))
     checkpoint_path = "checkpoints" + os.sep + \
         "your_model" + os.sep + timestamp + os.sep
@@ -260,6 +303,9 @@ def main():
     train(model, datasets, checkpoint_path, logs_path, init_epoch)
 
 
-# ARGS = parse_args()
+ARGS = parse_args()
 
 main()
+#interact -q gpu -g 1 -f ampere -m 96g -n 8 -t 24:00:00
+#apptainer shell --nv /oscar/runtime/software/external/ngc-containers/tensorflow.d/x86_64.d/tensorflow-24.03-tf2-py3.simg
+#python code/main.py --fourier
