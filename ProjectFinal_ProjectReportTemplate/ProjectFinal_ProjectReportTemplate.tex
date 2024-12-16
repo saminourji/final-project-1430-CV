@@ -80,68 +80,55 @@ Everest Yang, Tanay Subramanian, Sujith Pakala, Sami Nourji\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-This paper explores a Data-Augmented AI-Generated Image Detector to distinguish real images from AI-generated ones, addressing challenges posed by the rise of hyperrealistic content produced by generative AI. Using the CIFAKE dataset, we implement a CNN architecture with Fourier Transform features to evaluate their efficacy in identifying synthetic images. Our hypothesis is that incorporating spatial domain information, via Fourier transforms, into a CNN can enhance the detection of AI-generated images by leveraging subtle frequency inconsistencies. This was validated by our research, as our best-performing baseline CNN achieved a testing accuracy of 96.92 \%, while our Fourier-based model reached an accuracy of 98.50 \%. Our findings highlight the potential of leveraging Fourier transforms for improved image classification, strengthening the growing field concerning digital authenticity.
+This paper explores a Data-Augmented AI-Generated Image Detector to distinguish real images from AI-generated ones, addressing challenges posed by the rise of hyperrealistic content produced by generative AI. Using the CIFAKE dataset, we implement a CNN architecture with Fourier Transform features to evaluate their efficacy in identifying synthetic images. Our hypothesis is that incorporating frequency information via Fourier transforms, in addition to spatial domain information, into a CNN can enhance the detection of AI-generated images by leveraging frequency inconsistencies. This was validated by our research, as our best-performing baseline CNN achieved a testing accuracy of 96.92\%, while our Fourier-based model reached an accuracy of 98.50\%. Our findings highlight the potential of leveraging Fourier transforms for improved image classification, strengthening the growing field concerning digital authenticity.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-In today’s day and age, misinformation and privacy are pressing concerns. Especially as chatbots and generative AI become more sophisticated, such technologies can create hyperrealistic fake media that is nearly impossible for an individual to discern. This has significant implications for politics, social trust, and even individual security. Deepfakes have already been involved in election interference, celebrity impersonations, and malicious pranks. 
+Misinformation and privacy are pressing concerns in today’s modern world. As chatbots and generative AI become more sophisticated, such technologies can create hyperrealistic fake images that are nearly impossible for an individual to discern. Misusing these innovative technologies has significant implications for politics, social trust, and even individual security. For example, AI-generated images have already been involved in election interference, celebrity impersonations, and malicious pranks, underscoring the importance of a model that reliably detects fake images.
 
-This project becomes important in order to identify the authenticity of digital content at a time where realistic images and videos can easily be created within seconds. However, the central challenge to solving this problem is that AI-generated content can even replicate minute details such as lighting, shadows, and texture with high precision, making conventional detection methods less effective. Furthermore, it isn’t feasible to manually label AI-generated content at scale, highlighting the importance of automated tools in detecting fakes.
+Consequently, our project becomes essential for verifying digital content's authenticity as realistic synthetic images can now be generated in seconds. However, the central challenge to solving this problem is that AI-generated content can replicate minute details such as lighting, shadows, and texture with high precision, making conventional detection methods less effective. Furthermore, it is not feasible to manually label AI-generated content at scale, highlighting the importance of automated tools in detecting artificial images.
 
-In this paper, we propose a Data Augmented AI-Generated Image Detector capable of discerning real images from AI-generated ones. We aimed to test the hypothesis that AI-generated images have particular features that allow computers to differentiate them from real ones - for example, the smooth texture that seems to appear in AI-generated images. By leveraging computer vision and deep learning techniques, this project aims to identify distinguishing features between real and synthetic media. We believe that fourier transforms and data augmentation will make the model more reliable in various situations, helping it detect AI-generated content more accurately.
-
+We became familiar with these types of images through both social media and exploratory generation with tools such as Stable Diffusion. After lengthy discussions on the subject, we noticed that AI-generated images display textures that appear smoother than ‘real images’. To test this theory, we decided to focus on AI-Generated image detectors, and introduce frequency domain information into the models through the Fourier transform. This paper proposes a novel AI-Generated Image Detector to determine whether adding frequency domain information would enhance the model’s ability to discern real images from AI-generated ones. Studies have shown that AI-generated images have unique characteristics - such as specific frequency patterns, smooth texture, and artifacts - which distinguish them from real images. By applying Fourier transforms, we can quantify these differences in the frequency domain where smoothness and periodic artifacts are more evident. This approach aims to enhance the model's robustness in detecting artificial images.
 
 \section{Related Work}
 
-The rapid growth of generative adversarial networks (GANs) has created opportunities and ethical concerns regarding the misuse of synthetic images. Previous computer vision research has been conducted to find solutions \cite{2, 3, 6}. For example, includes a lightweight method using CNNs with eight convolutional and two hidden layers has been developed to identify AI-generated images. It was tested on benchmark datasets and Sentinel-2 images, and outperforms four state-of-the-art methods with its 97.32 \% accuracy \cite{1}. This inspired us to build our architecture similarly to attain a similarly high accuracy.
+The rapid growth of generative adversarial networks (GANs) has created opportunities and ethical concerns regarding the misuse of synthetic images \cite{2, 3, 6}. In recent academia, the CIFAKE dataset has become standard in distinguishing AI-generated images from real photographs. This dataset was created by generating synthetic images using latent diffusion to mirror the ten classes of the CIFAR-10 dataset. The synthetic dataset was paired with real images. Using a CNN, the study achieved 92.98\% accuracy across 36 network topologies. Explainable AI techniques, using Gradient Class Activation Mapping, shows that the model focuses on small imperfections in the background instead of the main object \cite{5}. We took inspiration from this dataset, learning from their technical implementation and results. Specifically, we explored their use of explainable AI techniques to refine our model's focus on relevant image features such as edge sharpness and texture inconsistencies to improve interpretability.
+ 
+Another research publication uses a lightweight method using CNNs with eight convolutional and two hidden layers to identify AI-generated images. It was tested on benchmark datasets and Sentinel-2 images, and outperforms four state-of-the-art methods with its lightweight architecture [1]. This inspired us to build our architecture in a similar way to achieve an equally high accuracy. We used similar batch normalization, density of convolutional layers, and dropout rates. 
 
-Another paper suggests using a synthetic dataset created with latent diffusion to mirror the CIFAR-10 dataset. They trained a CNN on 36 different models, achieving 92.98 \% accuracy. Explainable AI, using Gradient Class Activation Mapping, shows that the model focuses on small imperfections in the background instead of the main object \cite{5}. We took inspiration from this dataset, learning from their technical implementation and results.
+The main difference is that our paper explores adding a Fourier Transform to CNNs to enhance efficiency in image classification tasks. Based on their work, we integrated a Fourier Transform into our model to improve spatial-frequency feature extraction \cite{4}. By leveraging the Fourier Transform, it accelerates training times by up to 71\% with greater accuracy and reduced computational complexity. Given our limited hardware capabilities, we adopted their approach to balance accuracy and training time.
 
-This paper explores adding a Fourier Transform Layer (FTL) to CNNs to enhance efficiency in image classification tasks. By leveraging the Fourier Transform, the FTL accelerates training times by up to 71 \% with greater accuracy and reduced computational complexity. Based on their work, we integrated a FTL into our model to improve spatial-frequency feature extraction \cite{4}. We adopted their approach to balance accuracy and training time, given our limited hardware capabilities.
 
 
 \section{Method}
 
-We leveraged the CIFAKE dataset which contained 120,000 total images - 60,000 images are AI-generated and the other half are real \cite{5}. We decided to use this dataset because it was free, publicly available, and easy to access via Kaggle. Furthermore, it seems to be used by many researchers, supporting its credibility in the field. We used 100,00 images to train the CNN and the remaining 20,000 images were used for testing. Due to our laptops’ hardware limitations, we leveraged Brown’s OSCAR supercomputers to train our model, especially given the sheer amount of data we were feeding it.
-
-The baseline of our code was formed from recycling the Homework 5 code which also leveraged neural networks and was familiar to us. We then implemented a new model architecture inspired by the best-performing paper in our literature review \cite{1}. 
-
-To evaluate our initial hypothesis, we ran several experiments to maximize the model’s accuracy. First, we tested a normal CNN inspired by a model from one of the research papers. Since this had a low accuracy, we iteratively added more details to the model to try to optimize its performance. This was divided into two main phases, the first being modifying parameters and architecture, and the second being determining whether the Fourier transform would positively impact performance. We sought to answer this question by building a CNN with concatenated Fourier features, and comparing this with a CNN with concatenated random noise. The former had a higher accuracy, allowing us to confirm that appended Fourier details indeed added valuable information. We expand more on this in the “Results” section. The third model type we experimented with was integrating Fourier features into a dense layer to solely isolate the effects of a Fourier transform. The last model involved adding Fourier features in the dense layer, running images through the original architecture, and then combining both outputs into a single prediction. Throughout these various experiments, we tried to minimize the number of parameters we used - based on several papers highlighting the greater success of models with fewer parameters - and had eight million parameters at most in one of our models.
+TODO
 
 
 \section{Results}
 
+TODO
+
 Present the results of the changes. Include code snippets (just interesting things), figures (Figures \ref{fig:result1} and \ref{fig:result2}), and tables (Table \ref{tab:example}). Assess computational performance, accuracy performance, etc. Further, feel free to show screenshots, images; videos will have to be uploaded separately to Gradescope in a zip. Use whatever you need.
 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{placeholder.jpg}
-    \caption{Single-wide figure.}
-    \label{fig:result1}
-\end{figure}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 %-------------------------------------------------------------------------
 \subsection{Technical Discussion}
 
-Our approach to detecting AI-generated images revealed several technical insights and trade-offs. Integrating a Fourier Transform Layer into the CNN enhanced its ability to capture subtle spatial-frequency inconsistencies in AI-generated images, but our accuracy actually decreased. This means that the CNN architecture plays more of an influence, and it is hard to determine if this is due to the performance of the network or the Fourier Transform Layer. It is also important to note that concatenating a Fourier Transform Layer into our flattened vector significantly increased training time, emphasizing a trade-off between precision and efficiency. Utilizing the CIFAKE dataset, we also faced constraints in hyperparameter optimization due to limited GPU resources, despite leveraging Brown’s OSCAR supercomputers. Experiments comparing Fourier-transformed features with random noise concatenation confirmed that Fourier features contribute meaningful information, underscoring their value in distinguishing AI-generated images from real ones.
-
+TODO
 
 
 %------------------------------------------------------------------------
 \section{Conclusion}
 
-In this paper, we created and evaluated a Data-Augmented AI-Generated Image Detector designed to distinguish real images from AI-generated ones. Our experiments demonstrated that incorporating Fourier features into the detection pipeline provided valuable insights, although the overall accuracy depended mostly on the CNN architecture. While our baseline model already achieved high accuracy, the addition of Fourier Transform features revealed weaknesses in specific scenarios, even though they are able to detect small differences in patterns and frequencies found in synthetic images.
+In this paper, we created and evaluated an AI-Generated Image Detector designed to distinguish real images from AI-generated ones. Our experiments demonstrated that incorporating Fourier features into the detection pipeline provided valuable insights, although the overall accuracy depended mostly on the CNN architecture. While our baseline model already achieved high accuracy, the addition of Fourier Transform features revealed weaknesses in specific scenarios, even though they are able to detect small differences in patterns and frequencies found in synthetic images.
+
 A limitation of our project is the use of the CIFAKE dataset, which contains only 32×32 resolution images. Another limitation is that while this dataset is relatively new, it does not account for the significant advances in generative AI made in the last year. Hence, while this dataset allowed for efficient training and testing, it does not represent the variety or complexity of real-world images, limiting the generalizability of our findings. Future research should prioritize datasets with higher resolutions and more diverse content to ensure better performance in real world images/applications. As generative AI continues to evolve, solutions like the one proposed in this paper will play an important role in preserving digital authenticity and societal trust.
+
 
 
 
@@ -150,15 +137,20 @@ A limitation of our project is the use of the CIFAKE dataset, which contains onl
 \bibliography{ProjectFinal_ProjectReportTemplate}
 }
 
+\vspace{0.2cm}
 \section*{Appendix}
+
+\vspace{0.3cm}
 
 \subsection*{Team contributions}
 
+\vspace{0.1cm}
+
 \begin{description}
 
-\item[Everest Yang:] I developed the code for integrating the Fourier Transform and researched deeply into how to concatenate the flatten vector dimensions. I also contributed extensively to the paper, specifically on the Introduction, Related Works, Technical Discussion, Conclusion, and key parts of the Method section. I also formatted everything into a comprehensible format using LaTeX, and a .bib file for our references.
+\item[Everest Yang:] I developed the code for integrating the Fourier Transform into our model, including the implementation for concatenating the flattened vector dimensions. Additionally, I conducted an extensive review of related works and research papers to identify optimal CNN architectures. I also contributed significantly to the writing of the paper, specifically on the Introduction, Related Works, Technical Discussion, Conclusion, and key parts of the Method section. Furthermore, I formatted the entire document into a comprehensible research paper format using LaTeX and a .bib file for our references.
 
-\item[Tanay Subramanian:] I was responsible for finding literature concerning current research concerning neural networks and the integration of Fourier transforms into classification tasks. I also helped develop the code for the baseline model architecture, in addition to working on the final paper, contributing to the Abstract, Introduction, and Methods sections.
+\item[Tanay Subramanian:] I was responsible for finding literature concerning current research concerning neural networks and the integration of Fourier transforms into classification tasks. Additionally, I helped develop the code for the baseline model architecture, in addition to working on the final paper, contributing to the Abstract, Introduction, Methods, and Conclusion sections. I also worked extensively on the final presentation slides, helping summarize our research in a concise and visually appealing manner.
 
 \item[Sujith Pakala:] Once we realized that our project would require more computing power than our computers or Google Colab would allow, I took on the role of understanding and debugging our set-up with Oscar to be able to test our models in a time efficient manner. I also spearheaded the development of the code for our baseline without the fourier transform and the code for just using the fourier transformation after investigating architectures used historically in the literature. I also worked with Sami to design our “experiments” and created the graphs used in the report. 
 
