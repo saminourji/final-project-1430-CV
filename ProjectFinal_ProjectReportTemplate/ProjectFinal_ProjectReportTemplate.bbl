@@ -1,26 +1,26 @@
 \begin{thebibliography}{1}
 
-\bibitem{5}
+\bibitem{1}
 J.~J. Bird and A.~Lotfi.
 \newblock {CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images}.
 \newblock {\em IEEE Access}, 2024.
 
-\bibitem{6}
-Luca Romeo, Federico Federico, Anxhelo Dervishi, Raoul~M. M., and Luigi C.
-\newblock {Faster Than Lies: Real-Time Deepfake Detection using Binary Neural Networks}.
-\newblock {\em arXiv preprint}, arXiv:2406.04932, 2024.
-
 \bibitem{2}
-Victor~L. Thing.
-\newblock {Deepfake Detection with Deep Learning: Convolutional Neural Networks versus Transformers}.
-\newblock In {\em 2023 IEEE International Conference on Cyber Security and Resilience (CSR)}, pages 246--253. IEEE, July 2023.
+A.~Krizhevsky and G.~Hinton.
+\newblock {Learning Multiple Layers of Features from Tiny Images}.
+\newblock 2009.
+
+\bibitem{4}
+Lokner Lađević, Tomaž Kramberger, Rok Kramberger, and Danijela Vlahek.
+\newblock {Detection of AI-Generated Synthetic Images with a Lightweight CNN}.
+\newblock {\em AI}, 5(3):1575--1593, 2024.
 
 \bibitem{3}
 Yong Wang, Yifan Hao, and Ai~Xia Cong.
 \newblock {Harnessing Machine Learning for Discerning AI-Generated Synthetic Images}.
 \newblock {\em arXiv preprint}, arXiv:2401.07358, 2024.
 
-\bibitem{4}
+\bibitem{5}
 Jakub Zak, Anna Korzynska, Antonina Pater, and Lukasz Roszkowiak.
 \newblock {Fourier Transform Layer: A Proof of Work in Different Training Scenarios}.
 \newblock {\em Applied Soft Computing}, 145:110607, September 2023.
