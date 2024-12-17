@@ -36,6 +36,8 @@
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
 \documentclass[10pt,twocolumn,letterpaper]{article}
  
 \usepackage{cvpr}
@@ -90,7 +92,7 @@ Misinformation and privacy are pressing concerns in today’s modern world. As c
 
 Consequently, our project becomes essential for verifying digital content's authenticity as realistic synthetic images can now be generated in seconds. However, the central challenge to solving this problem is that AI-generated content can replicate minute details such as lighting, shadows, and texture with high precision, making conventional detection methods less effective. Furthermore, it is not feasible to manually label AI-generated content at scale, highlighting the importance of automated tools in detecting artificial images.
 
-We became familiar with these types of images through both social media and exploratory generation with tools such as Stable Diffusion. After lengthy discussions on the subject, we noticed that AI-generated images display textures that appear smoother than ‘real images’. To test this theory, we decided to focus on AI-Generated image detectors, and introduce frequency domain information into the models through the Fourier transform. This paper proposes a novel AI-Generated Image Detector to determine whether adding frequency domain information would enhance the model’s ability to discern real images from AI-generated ones. Studies have shown that AI-generated images have unique characteristics - such as specific frequency patterns, smooth texture, and artifacts - which distinguish them from real images. By applying Fourier transforms, we can quantify these differences in the frequency domain where smoothness and periodic artifacts are more evident. This approach aims to enhance the model's robustness in detecting artificial images.
+We became familiar with these types of images through both social media and exploratory generation with tools such as Stable Diffusion. After lengthy discussions on the subject, we noticed that AI-generated images display textures that appear smoother than ‘real images’. To test this theory, we decided to focus on AI-Generated image detectors, and introduce frequency domain information into the models through the Fourier Transform. This paper proposes a novel AI-Generated Image Detector to determine whether adding frequency domain information would enhance the model’s ability to discern real images from AI-generated ones. Studies have shown that AI-generated images have unique characteristics - such as specific frequency patterns, smooth texture, and artifacts - which distinguish them from real images. By applying Fourier Transforms, we can quantify these differences in the frequency domain where smoothness and periodic artifacts are more evident. This approach aims to enhance the model's robustness in detecting artificial images.
 
 \section{Related Work}
 
@@ -109,8 +111,30 @@ TODO
 
 \section{Results}
 
-TODO
-
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Model} & \textbf{Test Accuracy} \\
+    \hline
+    \textbf{Original CNN model} [FIGURE 1] & 98.58\% \\
+    \hline
+    \textbf{Fourier Transform only} [FIGURE 2] & 82.53\% \\
+    \hline
+    \multicolumn{2}{|l|}{\textbf{Concatenated Fourier} [FIGURE 3]:} \\
+    \hline
+    ~~~~Baseline (Random Noise) & 50.35\% \\
+    ~~~~Fourier Transform & 95.36\% \\
+    \hline
+    \multicolumn{2}{|l|}{\textbf{Combined Parallel Architectures} [FIGURE 4]:} \\
+    \hline
+    ~~~~Baseline & 98.50\% \\
+    ~~~~Experimental conditions & 98.50\% \\
+    \hline
+    \end{tabular}
+    \caption{Model Performance Comparison}
+    \label{tab:model-comparison}
+\end{table}
 Present the results of the changes. Include code snippets (just interesting things), figures (Figures \ref{fig:result1} and \ref{fig:result2}), and tables (Table \ref{tab:example}). Assess computational performance, accuracy performance, etc. Further, feel free to show screenshots, images; videos will have to be uploaded separately to Gradescope in a zip. Use whatever you need.
 
 
