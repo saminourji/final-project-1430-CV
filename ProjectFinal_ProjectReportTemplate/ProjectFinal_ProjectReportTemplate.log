@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.21)  17 DEC 2024 00:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.21)  17 DEC 2024 00:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -462,13 +462,13 @@ Package hyperref Info: Link coloring ON on input line 69.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 83.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 82.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 83.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 82.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msb.cfg
@@ -480,28 +480,28 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png, id=23, 3686.77374pt x 1193.45876pt>
 File: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png Graphic file (type png)
 <use /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png>
-Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png  used on input line 112.
+Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png  used on input line 111.
 (pdftex.def)             Requested size: 198.73946pt x 64.32016pt.
 </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg, id=24, 2226.3175pt x 811.03pt>
 File: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg Graphic file (type jpg)
 <use /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg>
-Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg  used on input line 115.
+Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg  used on input line 114.
 (pdftex.def)             Requested size: 198.73946pt x 72.39552pt.
 </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg, id=25, 3733.95pt x 1714.4853pt>
 File: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg Graphic file (type jpg)
 <use /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg>
-Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg  used on input line 118.
+Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg  used on input line 117.
 (pdftex.def)             Requested size: 198.73946pt x 91.24924pt.
 </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg, id=26, 3812.2425pt x 1889.1378pt>
 File: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg Graphic file (type jpg)
 <use /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg>
-Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg  used on input line 121.
+Package pdftex.def Info: /Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg  used on input line 120.
 (pdftex.def)             Requested size: 198.73946pt x 98.46922pt.
  [2 </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png> </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg> </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg> </Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 189.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 188.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) (./ProjectFinal_ProjectReportTemplate.bbl (./ProjectFinal_ProjectReportTemplate.brf)
@@ -527,7 +527,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  90i,9n,93p,1489b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ProjectFinal_ProjectReportTemplate.pdf (5 pages, 17439266 bytes).
+Output written on ProjectFinal_ProjectReportTemplate.pdf (5 pages, 17439267 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  77 compressed objects within 1 object stream
