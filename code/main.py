@@ -143,7 +143,6 @@ def LIME_explainer(model, path, preprocess_fn, timestamp):
 
         image_index += 1
 
-    # Read the image and preprocess it as before
     image = imread(path)
     if len(image.shape) == 2:
         image = np.stack([image, image, image], axis=-1)
@@ -157,22 +156,16 @@ def LIME_explainer(model, path, preprocess_fn, timestamp):
         image.astype('double'), model.predict, top_labels=5, hide_color=0,
         num_samples=1000)
 
-    # The top 5 superpixels that are most positive towards the class with the
-    # rest of the image hidden
     image_and_mask("Top 5 superpixels", positive_only=True, num_features=5,
                    hide_rest=True)
 
-    # The top 5 superpixels with the rest of the image present
     image_and_mask("Top 5 with the rest of the image present",
                    positive_only=True, num_features=5, hide_rest=False)
 
-    # The 'pros and cons' (pros in green, cons in red)
     image_and_mask("Pros(green) and Cons(red)",
                    positive_only=False, num_features=10, hide_rest=False)
 
-    # Select the same class explained on the figures above.
     ind = explanation.top_labels[0]
-    # Map each explanation weight to the corresponding superpixel
     dict_heatmap = dict(explanation.local_exp[ind])
     heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
     plt.imshow(heatmap, cmap='RdBu', vmin=-heatmap.max(), vmax=heatmap.max())
@@ -187,7 +180,6 @@ def LIME_explainer(model, path, preprocess_fn, timestamp):
 def train(model, datasets, checkpoint_path, logs_path, init_epoch):
     """ Training routine. """
 
-    # Keras callbacks for training
     callback_list = [
         tf.keras.callbacks.TensorBoard(
             log_dir=logs_path,
@@ -197,16 +189,11 @@ def train(model, datasets, checkpoint_path, logs_path, init_epoch):
         CustomModelSaver(checkpoint_path, "1", hp.max_num_weights)
     ]
 
-    # Include confusion logger in callbacks if flag set
-    # if ARGS.confusion:
-    #     callback_list.append(ConfusionMatrixLogger(logs_path, datasets))
-
-    # Begin training
     model.fit(
         x=datasets.train_data,
         validation_data=datasets.test_data,
         epochs=hp.num_epochs,
-        batch_size=None,            # Required as None as we use an ImageDataGenerator; see preprocess.py get_data()
+        batch_size=None,           
         callbacks=callback_list,
         initial_epoch=init_epoch,
     )
@@ -215,7 +202,6 @@ def train(model, datasets, checkpoint_path, logs_path, init_epoch):
 def test(model, test_data):
     """ Testing routine. """
 
-    # Run model on test set
     model.evaluate(
         x=test_data,
         verbose=1,
@@ -232,24 +218,6 @@ def main():
     time_now = datetime.now()
     timestamp = time_now.strftime("%m%d%y-%H%M%S")
     init_epoch = 0
-
-    # If loading from a checkpoint, the loaded checkpoint's directory
-    # will be used for future checkpoints
-# if ARGS.load_checkpoint is not None:
-    #     ARGS.load_checkpoint = os.path.abspath(ARGS.load_checkpoint)
-
-    #     # Get timestamp and epoch from filename
-    #     regex = r"(?:.+)(?:\.e)(\d+)(?:.+)(?:.h5)"
-    #     init_epoch = int(re.match(regex, ARGS.load_checkpoint).group(1)) + 1
-    #     timestamp = os.path.basename(os.path.dirname(ARGS.load_checkpoint))
-
-    # If paths provided by program arguments are accurate, then this will
-    # ensure they are used. If not, these directories/files will be
-    # set relative to the directory of main.py
-    # if os.path.exists(ARGS.data):
-    #     ARGS.data = os.path.abspath(ARGS.data)
-    # if os.path.exists(ARGS.load_vgg):
-    #     ARGS.load_vgg = os.path.abspath(ARGS.load_vgg)
 
     # Run script from location of main.py
     os.chdir(sys.path[0])
@@ -268,38 +236,18 @@ def main():
     logs_path = "logs" + os.sep + "your_model" + \
         os.sep + timestamp + os.sep
 
-    # Print summary of model
     model.summary()
 
-    # Load base of VGG model
-    # model.vgg16.load_weights(ARGS.load_vgg, by_name=True)
-
-    # Load checkpoints
-    # if ARGS.load_checkpoint is not None:
-    #     if ARGS.task == '1':
-    #         model.load_weights(ARGS.load_checkpoint, by_name=False)
-    #     else:
-    #         model.head.load_weights(ARGS.load_checkpoint, by_name=False)
-
-    # Make checkpoint directory if needed
+  
     if not os.path.exists(checkpoint_path):
         os.makedirs(checkpoint_path)
 
-    # Compile model graph
+    # compile model graph
     model.compile(
         optimizer=model.optimizer,
         loss=model.loss_fn,
         metrics=["accuracy"])
-
-    # if ARGS.evaluate:
-    #     test(model, datasets.test_data)
-
-    #     # TODO: change the image path to be the image of your choice by changing
-    #     # the lime-image flag when calling main.py to investigate
-    #     # i.e. python main.py --evaluate --lime-image test/Bedroom/image_003.jpg
-    #     path = ARGS.lime_image
-    #     LIME_explainer(model, path, datasets.preprocess_fn, timestamp)
-    # else:
+    
     train(model, datasets, checkpoint_path, logs_path, init_epoch)
 
 
