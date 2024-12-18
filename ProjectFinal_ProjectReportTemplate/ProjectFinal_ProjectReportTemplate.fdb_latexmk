@@ -1,15 +1,16 @@
 # Fdb version 4
-["bibtex ProjectFinal_ProjectReportTemplate"] 1734412114.81086 "ProjectFinal_ProjectReportTemplate.aux" "ProjectFinal_ProjectReportTemplate.bbl" "ProjectFinal_ProjectReportTemplate" 1734413186.1686 0
+["bibtex ProjectFinal_ProjectReportTemplate"] 1734491409.93608 "ProjectFinal_ProjectReportTemplate.aux" "ProjectFinal_ProjectReportTemplate.bbl" "ProjectFinal_ProjectReportTemplate" 1734492537.64232 0
   "./ProjectFinal_ProjectReportTemplate.bib" 1734411389.09496 1494 3adfdf82ec1f1a76aa426793b0c26c5f ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "ProjectFinal_ProjectReportTemplate.aux" 1734413185.92191 3035 ad45c61676f069b5c63088f1e95f6700 "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.aux" 1734492535.57945 3332 088017090b15aa13a8927958973a40c1 "pdflatex"
   (generated)
   "ProjectFinal_ProjectReportTemplate.bbl"
   "ProjectFinal_ProjectReportTemplate.blg"
   (rewritten before read)
-["pdflatex"] 1734413184.64327 "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" "ProjectFinal_ProjectReportTemplate.pdf" "ProjectFinal_ProjectReportTemplate" 1734413186.16871 0
-  "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" 1734413184.38775 24256 cc882b0f422f28bb19fc4d213b3b1c3c ""
+["pdflatex"] 1734492528.34385 "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" "ProjectFinal_ProjectReportTemplate.pdf" "ProjectFinal_ProjectReportTemplate" 1734492537.64286 0
+  "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/ProjectFinal_ProjectReportTemplate/ProjectFinal_ProjectReportTemplate.tex" 1734492523.63459 24271 2b267a003c3a4415a4cebfa34dbbceea ""
   "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Append figure.jpg" 1734225555 7565871 5892409027aa8cf38de6304610581a07 ""
+  "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/CNN baseline.png" 1734406305.05977 294247 f9b54c3b9f0613eb939b99265a413f25 ""
   "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Combined figure.jpg" 1734225559 9538200 765532537640a8d629dd71944cc573a3 ""
   "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/Fourier only.jpg" 1734320673.64022 209215 437e770a9eda6af0ef7ee1e6de04a708 ""
   "/Users/sami/Desktop/Brown/Classes/Fall 2024/CSCI 1430/CS1430_Projects/final-project-1430-CV/writeup/Images/ai-05-00076-g006.png" 1734219097.12128 48020 13f31c71399d4a92ec437555d7bf4a6c ""
@@ -132,10 +133,10 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1718996592.35863 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1718996354 8221429 b5e13359c2e04a7d8d668b8ca05f7299 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "ProjectFinal_ProjectReportTemplate.aux" 1734413185.92191 3035 ad45c61676f069b5c63088f1e95f6700 "pdflatex"
-  "ProjectFinal_ProjectReportTemplate.bbl" 1734412114.90091 990 53afc4c45a0c1f7b6848c631b1385a30 "bibtex ProjectFinal_ProjectReportTemplate"
-  "ProjectFinal_ProjectReportTemplate.brf" 1734413185.92264 205 e193c838f665872ca25e6208747cdc27 "pdflatex"
-  "ProjectFinal_ProjectReportTemplate.tex" 1734413184.38775 24256 cc882b0f422f28bb19fc4d213b3b1c3c ""
+  "ProjectFinal_ProjectReportTemplate.aux" 1734492535.57945 3332 088017090b15aa13a8927958973a40c1 "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.bbl" 1734491410.47655 990 53afc4c45a0c1f7b6848c631b1385a30 "bibtex ProjectFinal_ProjectReportTemplate"
+  "ProjectFinal_ProjectReportTemplate.brf" 1734492535.59104 205 fadc24c90ec2bac4db956d58402bfaf2 "pdflatex"
+  "ProjectFinal_ProjectReportTemplate.tex" 1734492523.63459 24271 2b267a003c3a4415a4cebfa34dbbceea ""
   "cvpr.sty" 1726018122 8185 1f09b4535924bf997f66357aa9ee3654 ""
   "cvpr_eso.sty" 1726018122 3878 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1726018122 9460 d2935ae95b5cd343fcf5887ff530288d ""
