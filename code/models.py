@@ -31,40 +31,6 @@ class YourModel(tf.keras.Model):
         print("Combined Random:", self.combined_random)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = hp.learning_rate)
         
-        # self.architecture = [ 
-        #      Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 32, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      MaxPool2D(pool_size = (3,3), strides=2),
-             
-        #      Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 64, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      MaxPool2D(pool_size = (3,3), strides=2),
-             
-        #      Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 128, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      MaxPool2D(pool_size = (3,3), strides=2),
-             
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      MaxPool2D(pool_size = (3,3), strides=2),
-        
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      Conv2D(filters = 256, kernel_size = (3,3), padding='same'), BatchNormalization(), ReLU(),
-        #      MaxPool2D(pool_size = (3,3), strides=2),
-
-        #      Flatten(),
-         
-
-        #      Dense(units = 1024), BatchNormalization(), ReLU(),
-        #      Dropout(rate = 0.5),
-        #      Dense(units = 1024), BatchNormalization(), ReLU(),
-        #      Dropout(rate = 0.5),
-        #      Dense(units = 15, activation = 'softmax') #(15, 1)
-        # ]
-
-
         #fourier: conv_blocks, head
         #random-fourier: conv_blocks, head
         #fourier-only: fourier_head
@@ -72,7 +38,7 @@ class YourModel(tf.keras.Model):
 
         if not fourier_only:
             self.conv_blocks = [
-                # Block 1
+                # block 1
                 Conv2D(64, 3, padding="same", activation=None, name="block1_conv1"),
                 BatchNormalization(name="block1_bn1"),
                 ReLU(name="block1_relu1"),
@@ -82,7 +48,7 @@ class YourModel(tf.keras.Model):
                 MaxPool2D(2, name="block1_pool"),
                 Dropout(0.3, name="block1_dropout"),
                 
-                # Block 2
+                # block 2
                 Conv2D(128, 3, padding="same", activation=None, name="block2_conv1"),
                 BatchNormalization(name="block2_bn1"),
                 ReLU(name="block2_relu1"),
@@ -92,7 +58,7 @@ class YourModel(tf.keras.Model):
                 MaxPool2D(2, name="block2_pool"),
                 Dropout(0.3, name="block2_dropout"),
                 
-                # Block 3
+                # block 3
                 Conv2D(256, 3, padding="same", activation=None, name="block3_conv1"),
                 BatchNormalization(name="block3_bn1"),
                 ReLU(name="block3_relu1"),
@@ -102,7 +68,7 @@ class YourModel(tf.keras.Model):
                 MaxPool2D(2, name="block3_pool"),
                 Dropout(0.3, name="block3_dropout"),
                 
-                # Block 4
+                # block 4
                 Conv2D(512, 3, padding="same", activation=None, name="block4_conv1"),
                 BatchNormalization(name="block4_bn1"),
                 ReLU(name="block4_relu1"),
@@ -115,30 +81,29 @@ class YourModel(tf.keras.Model):
             self.conv_blocks = tf.keras.Sequential(self.conv_blocks, name="conv_base")
 
         
-        
-        #if fourier-only or combined:
+        #if fourier only or combined:
         if fourier_only:
             self.fourier_head = [
-                Dense(1024, activation="relu", name="fc1"),  # Increased size
+                Dense(1024, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
                 Dense(512, activation="relu", name="fc2"),
                 Dropout(0.3, name="dropout2"),
-                Dense(256, activation="relu", name="fc3"),  # New layer
+                Dense(256, activation="relu", name="fc3"),
                 Dropout(0.3, name="dropout3"),
-                Dense(128, activation="relu", name="fc4"),  # New layer
+                Dense(128, activation="relu", name="fc4"),
                 Dropout(0.3, name="dropout4"),
-                Dense(1, activation="sigmoid", name="output"),  # Output layer
+                Dense(1, activation="sigmoid", name="output"),
             ]
             self.fourier_head = tf.keras.Sequential(self.fourier_head, name="fourier_head")
         
-        elif combined or combined_random: # combined
+        elif combined or combined_random:
             self.head = [
                 Dense(512, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
                 Dense(512, activation="relu", name="fc3"),  
             ]
             self.fourier_head = [
-                Dense(1024, activation="relu", name="fc1"),  # Increased size
+                Dense(1024, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
                 Dense(512, activation="relu", name="fc2"),
                 Dropout(0.3, name="dropout2"),
@@ -147,7 +112,7 @@ class YourModel(tf.keras.Model):
             self.combined_head = [
                 Dense(256, activation="relu", name="fc1"),
                 Dropout(0.3, name="dropout1"),
-                Dense(1, activation="sigmoid", name="output")  # Binary classification
+                Dense(1, activation="sigmoid", name="output")
             ]
             self.head = tf.keras.Sequential(self.head, name="head")
             self.fourier_head = tf.keras.Sequential(self.fourier_head, name="fourier_head")
@@ -159,27 +124,27 @@ class YourModel(tf.keras.Model):
                 Dropout(0.3, name="dropout1"),
                 Dense(512, activation="relu", name="fc2"),
                 Dropout(0.3, name="dropout2"),
-                Dense(1, activation="sigmoid", name="output")  # Binary classification
+                Dense(1, activation="sigmoid", name="output")
             ]
             self.head = tf.keras.Sequential(self.head, name="head")
 
     def apply_fourier_transform(self, x):
         """ Applies Fourier Transform to the input tensor. """
-        x = tf.cast(x, tf.float32)  # Ensure input is float32
-        x = tf_signal.rfft2d(x)  # Apply real FFTi
-        x_mag = tf.abs(x)  # Compute magnitude
-        x_phase = tf.math.angle(x)  # Compute phase
+        x = tf.cast(x, tf.float32) 
+        x = tf_signal.rfft2d(x)
+        x_mag = tf.abs(x) 
+        x_phase = tf.math.angle(x)
         x_mag_pooled = tf.reduce_mean(x_mag, axis=-1)
         x_phase_pooled = tf.reduce_mean(x_phase, axis=-1)
         x_mag_flattened = tf.keras.layers.Flatten()(x_mag_pooled)
         x_phase_flattened = tf.keras.layers.Flatten()(x_phase_pooled)
-        return x_mag_flattened, x_phase_flattened #(None, 1024) each
+        return x_mag_flattened, x_phase_flattened
 
     def call(self, x):
         conv_output_func = tf.keras.layers.GlobalAveragePooling2D(name="gap_conv_output")
         # conv_output_func = tf.keras.layers.Flatten()
 
-        # Concatenated Fourier
+        # concatenated Fourier
         if self.fourier:
             x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(x)
 
@@ -189,7 +154,7 @@ class YourModel(tf.keras.Model):
             combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
             x = self.head(combined_features)
 
-        # Concatenated random (instead of Fourier)
+        # concatenated random (instead of Fourier)
         elif self.random_fourier:
             uniform_noise = tf.random.uniform(shape=tf.shape(x), minval=0, maxval=255, dtype=tf.float32)
             x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(uniform_noise)
@@ -200,14 +165,12 @@ class YourModel(tf.keras.Model):
             combined_features = tf.keras.layers.Concatenate()([conv_output_gapped, x_mag_flattened, x_phase_flattened])
             x = self.head(combined_features)
 
-        # Fourier through dense layer
         elif self.fourier_only: 
             x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
 
             combined_features = tf.keras.layers.Concatenate()([x_mag_flattened, x_phase_flattened])
             x = self.fourier_head(combined_features)
 
-        # Fourier through dense layer, Normal image, then concatednated and pass through one dense
         elif self.combined:
             x_mag_flattened, x_phase_flattened = self.apply_fourier_transform(x)
 
@@ -221,7 +184,6 @@ class YourModel(tf.keras.Model):
             combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
             x = self.combined_head(combined_arch)
 
-        # Random Fourier through dense layer, Normal image, then concatednated and pass through one dense
         elif self.combined_random:
             uniform_noise = tf.random.uniform(shape=tf.shape(x), minval=0, maxval=255, dtype=tf.float32)
             x_mag_flattened, x_phase_flattened  = self.apply_fourier_transform(uniform_noise)
@@ -236,7 +198,6 @@ class YourModel(tf.keras.Model):
             combined_arch = tf.keras.layers.Concatenate()([x_fourier, x_cnn])
             x = self.combined_head(combined_arch)
             
-        # Normal: image through CNN
         else: 
             x = self.conv_blocks(x)
             x = conv_output_func(x)
@@ -244,9 +205,7 @@ class YourModel(tf.keras.Model):
 
         return x
 
-
     @staticmethod
     def loss_fn(labels, predictions):
         """ Loss function for binary classification. """
         return tf.keras.losses.BinaryCrossentropy()(labels, predictions)
-
