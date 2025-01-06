@@ -1,5 +1,5 @@
 # CS1430 (Computer Vision) Final Project: Evaluating Fourier Transform Features for Detection of AI-Generated Images
-
+[Report/Paper Link](https://drive.google.com/file/d/1UuEESDcBZUsCJlRUNnl4nQ7To2goIuC6/view?usp=sharing)
 ## Abstract
 This project evaluates the addition of Fourier Transforms into CNN models designed to distinguish real images from AI-generated ones, addressing challenges posed by the rise of hyperrealistic content produced by AI. Using the CIFAKE dataset, we implement a CNN architecture with Fourier Transform features to evaluate the model's success in classifying synthetic images. Our hypothesis is that incorporating frequency information via Fourier Transforms, in addition to spatial domain information, into a CNN can enhance the detection of AI-generated images by leveraging subtle frequency inconsistencies. This was ultimately disproved by our research, as our best-performing baseline CNN achieved a testing accuracy of 98.58%, while our Fourier-based model reached an accuracy of 98.50%.
 
